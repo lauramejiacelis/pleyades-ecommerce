@@ -16,7 +16,11 @@
   "author": "Laura Melissa Mejia Celis",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "express": "^4.18.2",
+    "mongodb": "^6.2.0",
+    "mongoose": "^7.6.3"
   },
   "devDependencies": {
     "concurrently": "^8.2.1",
