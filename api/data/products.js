@@ -80,7 +80,7 @@ const products = [
     category: 'Esferas',
     price: 40000,
     countInStock: 20,
-    rating: 4,
+    rating: 3,
     numReviews: 2,
   },
   {
