@@ -1,9 +1,13 @@
-import { Navbar, Nav, Container} from 'react-bootstrap'
+import { Badge, Navbar, Nav, Container} from 'react-bootstrap'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'
 import { LinkContainer} from 'react-router-bootstrap'
+import { useSelector } from 'react-redux';
 import logo from '../assets/Pleyades_ecommerce.png';
 
 const NavBar = () => {
+  const { cartItems } = useSelector((state)=>state.cart);
+  console.log(cartItems)
+
   return (
     <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
       <Container>
@@ -21,7 +25,16 @@ const NavBar = () => {
         <Navbar.Collapse id='basic/navbar/nav'>
           <Nav className='ms-auto'>
             <LinkContainer to='/cart'>
-              <Nav.Link > <FaShoppingCart/> Cart </Nav.Link>
+              <Nav.Link > 
+                <FaShoppingCart/> Cart 
+                {
+                  cartItems.length > 0 && (
+                    <Badge pill bg='info' style={{marginLeft: '5px'}}>
+                      {cartItems.reduce((acc, curr)=> acc + curr.qty ,0)}
+                    </Badge>
+                  )
+                }
+              </Nav.Link>
             </LinkContainer>
               
             <LinkContainer to='/login'>
