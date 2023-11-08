@@ -1,4 +1,3 @@
-import { PiDatabaseFill } from "react-icons/pi";
 import { USERS_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
