@@ -81,16 +81,14 @@ const createProductHandler = async() => {
                 
                 <td>
                   <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                    <Button className='btn-sm mx-2' variant='info'>
+                    <Button className='btn-sm mx-2' variant='secondary'>
                       <FaEdit/>
                     </Button>
                   </LinkContainer>
-                  <Button className='btn-sm mx-2' variant='danger' onClick={()=> deleteHandler(product._id)}>
-                    <FaTrash style={{color: 'white'}}/>
+                  <Button className='btn-sm mx-2' variant="light" onClick={()=> deleteHandler(product._id)}>
+                    <FaTrash style={{color: 'black'}}/>
                   </Button>
-                  <Button className='btn-sm mx-2' variant='info'>
-                    <FaTimes/>
-                  </Button>
+
                 </td>
               </tr>
             ))}
