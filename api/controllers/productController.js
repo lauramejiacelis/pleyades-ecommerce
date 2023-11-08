@@ -23,4 +23,63 @@ const getProductsById = asyncHandler(async(req, res) => {
   throw new Error('Resource not found')
 })
 
-export {getProducts, getProductsById}
+//@desc   Create a product
+//@route  POST /api/products
+//@access Private/Admin
+const createProduct = asyncHandler(async (req, res) => {
+  const product = new Product({
+    name: 'Sample Name',
+    price: 0,
+    user: req.user._id,
+    image: '/images/sample.jpg',
+    description: 'Sample description', 
+    intention: 'Sample intention',
+    scent: 'Sample scent',
+    crystal: 'Sample crystal',
+    category: 'Sample category',
+    countInStock: 0,
+    numReviews: 0,
+    rating: 0,
+  });
+
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
+});
+
+//@desc   Update a product
+//@route  GET /api/products/:id
+//@access Private/Admin
+const updateProduct = asyncHandler(async(req, res) => {
+  const { name, 
+    price, 
+    image, 
+    description, 
+    intention,
+    scent,
+    crystal,
+    category,
+    countInStock,
+    } = req.body;
+
+    const product = await Product.findById(req.params.id)
+
+    if(product){
+      product.name = name; 
+      product.price = price; 
+      product.image = image; 
+      product.description = description; 
+      product.intention = intention;
+      product.scent = scent;
+      product.crystal = crystal;
+      product.category = category;
+      product.countInStock = countInStock;
+
+      const updatedProduct= await product.save();
+      res.json(updatedProduct);
+    } else {
+      res.status(404)
+      throw new Error('Resource not found')
+    }
+})
+
+export { getProducts, getProductsById, createProduct, updateProduct }
