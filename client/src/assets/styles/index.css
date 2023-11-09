@@ -18,6 +18,20 @@ main {
   border-radius: 5px 0 0 5px;
 }
 
+/* Style the icon bar links */
+.iconBar .icons {
+  display: block;
+  text-align: center;
+  padding: 5px;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 20px;
+}
+
+.iconBar .icons:hover {
+  color: #EFAF96
+}
+
 .rating span {
   margin: 0.1rem;
 }
