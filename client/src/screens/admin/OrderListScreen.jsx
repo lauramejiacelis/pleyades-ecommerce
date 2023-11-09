@@ -1,23 +1,22 @@
-import { LinkContainer } from "react-router-bootstrap"
-import { Table, Button } from "react-bootstrap"
-import { FaTimes } from "react-icons/fa"
-import Message from "../../components/Message"
-import Loader from "../../components/Loader"
-import { useGetOrdersQuery } from '../../slices/ordersApiSlice.js'
+import { LinkContainer } from 'react-router-bootstrap';
+import { Table, Button } from 'react-bootstrap';
+import { FaTimes } from 'react-icons/fa';
+import Message from '../../components/Message';
+import Loader from '../../components/Loader';
+import { useGetOrdersQuery } from '../../slices/ordersApiSlice.js';
 
 const OrderListScreen = () => {
-  const { data:orders, isLoading, error } = useGetOrdersQuery();
-  console.log(orders)
+  const { data: orders, isLoading, error } = useGetOrdersQuery();
+  console.log(orders);
 
   return (
     <>
       <h2>Pedidos</h2>
       {isLoading ? (
-        <Loader/>
-        ) : error ? (
-        <Message variant='danger'>
-          { error}
-        </Message>) : (
+        <Loader />
+      ) : error ? (
+        <Message variant='danger'>{error}</Message>
+      ) : (
         <Table striped hover responsive className='table-sm'>
           <thead>
             <tr>
@@ -31,25 +30,25 @@ const OrderListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order)=> (
+            {orders.map((order) => (
               <tr key={order._id}>
-                <td> {order._id}  </td>
+                <td> {order._id} </td>
                 <td>{order.user && order.user.name}</td>
-                <td>{order.createdAt.substring(0,10)}</td>
+                <td>{order.createdAt.substring(0, 10)}</td>
                 <td>{order.totalPrice}</td>
                 <td>
-                  { order.isPaid ? (
+                  {order.isPaid ? (
                     order.paidAt.substring(0, 10)
                   ) : (
-                    <FaTimes style={{color: 'red'}}/>
-                  ) }
+                    <FaTimes style={{ color: 'red' }} />
+                  )}
                 </td>
                 <td>
-                  { order.isDelivered ? (
+                  {order.isDelivered ? (
                     order.deliveredAt.substring(0, 10)
                   ) : (
-                    <FaTimes style={{color: 'red'}}/>
-                  ) }
+                    <FaTimes style={{ color: 'red' }} />
+                  )}
                 </td>
                 <td>
                   <LinkContainer to={`/order/${order._id}`}>
@@ -64,7 +63,7 @@ const OrderListScreen = () => {
         </Table>
       )}
     </>
-  )
-}
+  );
+};
 
-export default OrderListScreen
+export default OrderListScreen;

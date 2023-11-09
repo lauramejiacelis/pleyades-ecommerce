@@ -1,78 +1,99 @@
-import { useState } from "react"
-import { useParams, useNavigate} from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { useGetProductDetailsQuery, useCreateReviewMutation } from "../slices/productApiSlice.js"
-import { addToCart } from "../slices/cartSlice.js"
-import { Link } from "react-router-dom"
-import { Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap'
-import { toast } from 'react-toastify'
-import Rating from "../components/Rating"
-import Loader from "../components/Loader.jsx"
-import Message from "../components/Message.jsx"
+import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  useGetProductDetailsQuery,
+  useCreateReviewMutation,
+} from '../slices/productApiSlice.js';
+import { addToCart } from '../slices/cartSlice.js';
+import { Link } from 'react-router-dom';
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+} from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import Rating from '../components/Rating';
+import Loader from '../components/Loader.jsx';
+import Message from '../components/Message.jsx';
+import Meta from '../components/Meta.jsx';
 
 const ProductScreen = () => {
-  const {id: productId} = useParams()
+  const { id: productId } = useParams();
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [qty,setQty] = useState(1)
-  const [rating, setRating] = useState(0)
-  const [comment, setComment]= useState('')
+  const [qty, setQty] = useState(1);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
 
-  const { data: product, refetch, isLoading, error } = useGetProductDetailsQuery (productId);
-  console.log(product)
+  const {
+    data: product,
+    refetch,
+    isLoading,
+    error,
+  } = useGetProductDetailsQuery(productId);
+  console.log(product);
 
-  const [ createReview, {isLoading: loadingProductReview}] = useCreateReviewMutation()
+  const [createReview, { isLoading: loadingProductReview }] =
+    useCreateReviewMutation();
 
-  const { userInfo }= useSelector((state)=> state.auth)
+  const { userInfo } = useSelector((state) => state.auth);
 
-  const addToCartHandler = ()=>{
-    dispatch(addToCart({...product, qty}))
-    navigate('/cart')
-  }
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, qty }));
+    navigate('/cart');
+  };
 
-  const submitHandler = async (e)=>{
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
       await createReview({ productId, rating, comment }).unwrap();
       refetch();
-      toast.success('Reseña envida')
-      setRating(0)
-      setComment('')
+      toast.success('Reseña envida');
+      setRating(0);
+      setComment('');
     } catch (error) {
-      toast.error(error?.data?.message || error.error)
+      toast.error(error?.data?.message || error.error);
     }
-
-  }
+  };
 
   return (
     <>
-      <Link className="btn btn-secondary my-3" to='/'>
+      <Link className='btn btn-secondary my-3' to='/'>
         Ir Atrás
       </Link>
       {isLoading ? (
-        <Loader/>
+        <Loader />
       ) : error ? (
-        <Message variant='danger'>{error?.data?.message || error.error}</Message>
+        <Message variant='danger'>
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={5}>
-              <Image src={product.image} alt={product.name} fluid/>
+              <Image src={product.image} alt={product.name} fluid />
             </Col>
             <Col md={4}>
-              <ListGroup variant="flush">
+              <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <h3>{product.name}</h3>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
+                  <Rating
+                    value={product.rating}
+                    text={`${product.numReviews} reviews`}
+                  />
                 </ListGroup.Item>
-                <ListGroup.Item>
-                  Precio: ${product.price}
-                </ListGroup.Item>
+                <ListGroup.Item>Precio: ${product.price}</ListGroup.Item>
                 <ListGroup.Item>
                   Descripción: {product.description}
                 </ListGroup.Item>
@@ -80,37 +101,45 @@ const ProductScreen = () => {
             </Col>
             <Col md={3}>
               <Card>
-                <ListGroup variant="flush">
+                <ListGroup variant='flush'>
                   <ListGroup.Item>
                     <Row>
                       <Col>Precio: </Col>
-                      <Col><strong>${product.price}</strong></Col>
+                      <Col>
+                        <strong>${product.price}</strong>
+                      </Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Estado: </Col>
-                      <Col><strong>{product.countInStock > 0 ? 'In Stock' : 'Out of stock'}</strong></Col>
+                      <Col>
+                        <strong>
+                          {product.countInStock > 0
+                            ? 'In Stock'
+                            : 'Out of stock'}
+                        </strong>
+                      </Col>
                     </Row>
                   </ListGroup.Item>
 
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <Row>
-                        <Col>
-                          Cantidad:
-                        </Col>
+                        <Col>Cantidad:</Col>
                         <Col>
                           <Form.Control
                             as='select'
                             value={qty}
-                            onChange={(e)=>setQty(Number(e.target.value))}
+                            onChange={(e) => setQty(Number(e.target.value))}
                           >
-                            {[...Array(product.countInStock).keys()].map((x)=> (
-                              <option key={x+1} value={x+1}> 
-                                {x+1}
-                              </option>
-                            ))}
+                            {[...Array(product.countInStock).keys()].map(
+                              (x) => (
+                                <option key={x + 1} value={x + 1}>
+                                  {x + 1}
+                                </option>
+                              )
+                            )}
                           </Form.Control>
                         </Col>
                       </Row>
@@ -118,9 +147,9 @@ const ProductScreen = () => {
                   )}
 
                   <ListGroup.Item>
-                    <Button 
-                      className="btn btn-block" 
-                      type="button" 
+                    <Button
+                      className='btn btn-block'
+                      type='button'
                       disabled={product.countInStock === 0}
                       onClick={addToCartHandler}
                     >
@@ -131,61 +160,65 @@ const ProductScreen = () => {
               </Card>
             </Col>
           </Row>
-          <Row className="review">
+          <Row className='review'>
             <Col md={6}>
               <h2>Reseñas</h2>
-              {product.reviews.length === 0 && <Message>No hay opiniones hasta el momento</Message>}
-              <ListGroup variant="flush">
-                {product.reviews.map((review)=>(
+              {product.reviews.length === 0 && (
+                <Message>No hay opiniones hasta el momento</Message>
+              )}
+              <ListGroup variant='flush'>
+                {product.reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
-                    <Rating value={review.rating}/>
+                    <Rating value={review.rating} />
                     <p>{review.createdAt.substring(0, 10)}</p>
                     <p>{review.comment}</p>
                   </ListGroup.Item>
                 ))}
                 <ListGroup.Item>
                   <h4>Deja tu reseña</h4>
-                  
-                  {loadingProductReview && <Loader/>}
+
+                  {loadingProductReview && <Loader />}
 
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
-                      <Form.Group controlId="rating" className="my-2">
+                      <Form.Group controlId='rating' className='my-2'>
                         <Form.Label>Puntuación</Form.Label>
                         <Form.Control
                           as='select'
                           value={rating}
-                          onChange={(e)=>setRating(Number(e.target.value))}
+                          onChange={(e) => setRating(Number(e.target.value))}
                         >
-                          <option value="">Seleccione...</option>
-                          <option value="1">1 - Pobre</option>
-                          <option value="2">2 - Justo</option>
-                          <option value="3">3 - Bueno</option>
-                          <option value="4">4 - Muy bueno</option>
-                          <option value="5">5 - Excelente</option>
+                          <option value=''>Seleccione...</option>
+                          <option value='1'>1 - Pobre</option>
+                          <option value='2'>2 - Justo</option>
+                          <option value='3'>3 - Bueno</option>
+                          <option value='4'>4 - Muy bueno</option>
+                          <option value='5'>5 - Excelente</option>
                         </Form.Control>
                       </Form.Group>
-                      <Form.Group controlId="comment" className="my-2">
+                      <Form.Group controlId='comment' className='my-2'>
                         <Form.Label>Comentarios</Form.Label>
-                          <Form.Control
-                            as='textarea'
-                            row='3'
-                            value={comment}
-                            onChange={(e)=>setComment(e.target.value)}
-                          >
-                          </Form.Control>
-                        </Form.Group>
-                        <Button
-                          disabled={loadingProductReview}
-                          type="submit"
-                          variant="secondary"
-                        >
-                          Enviar
-                        </Button>
+                        <Form.Control
+                          as='textarea'
+                          row='3'
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button
+                        disabled={loadingProductReview}
+                        type='submit'
+                        variant='secondary'
+                      >
+                        Enviar
+                      </Button>
                     </Form>
                   ) : (
-                    <Message>Por favor <Link to='/login'>inicie sesión</Link> para dejar su reseña</Message>
+                    <Message>
+                      Por favor <Link to='/login'>inicie sesión</Link> para
+                      dejar su reseña
+                    </Message>
                   )}
                 </ListGroup.Item>
               </ListGroup>
@@ -194,7 +227,7 @@ const ProductScreen = () => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default ProductScreen
+export default ProductScreen;

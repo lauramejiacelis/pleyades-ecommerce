@@ -1,4 +1,4 @@
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col } from 'react-bootstrap';
 
 const FormContainer = ({ children }) => {
   return (
@@ -9,7 +9,7 @@ const FormContainer = ({ children }) => {
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-export default FormContainer
+export default FormContainer;

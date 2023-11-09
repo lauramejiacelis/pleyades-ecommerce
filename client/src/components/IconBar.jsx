@@ -1,19 +1,15 @@
-import { FaInstagram, FaFacebook, FaWhatsapp } from 'react-icons/fa6'
+import { FaInstagram, FaFacebook, FaWhatsapp } from 'react-icons/fa6';
 
 const IconBar = () => {
   return (
-    <div className="iconBar">
+    <div className='iconBar'>
+      <FaInstagram />
 
-        <FaInstagram/>
+      <FaFacebook />
 
-
-        <FaFacebook/>
-
-
-        <FaWhatsapp/>
-
+      <FaWhatsapp />
     </div>
-  )
-}
+  );
+};
 
-export default IconBar
+export default IconBar;
