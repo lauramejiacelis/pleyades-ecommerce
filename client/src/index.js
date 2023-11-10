@@ -27,6 +27,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
 import UserListScreen from './screens/admin/UserListScreen'
 import UserEditScreen from './screens/admin/UserEditScreen';
+import UsScreen from './screens/UsScreen';
 import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter(
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
       <Route path='/cart' element={<CartScreen/>}/>
       <Route path='/login' element={<LoginScreen/>}/>
       <Route path='/register' element={<RegisterScreen/>}/>
+      <Route path='/us' element={<UsScreen/>}/>
 
       <Route path='/' element={<PrivateRoute/>}>
         <Route path='/shipping' element={<ShippingScreen/>}/>

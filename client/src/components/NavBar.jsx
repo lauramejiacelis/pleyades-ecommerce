@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Badge, Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { GiCandleLight } from 'react-icons/gi';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
@@ -48,50 +49,58 @@ const NavBar = () => {
 
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic/navbar/nav'>
-          <Nav className='ms-auto'>
+          <Nav className='ms-auto d-flex flex-column'>
             <SearchBox />
-            <LinkContainer to='/cart'>
-              <Nav.Link>
-                <FaShoppingCart /> Cart
-                {cartItems.length > 0 && (
-                  <Badge pill bg='info' style={{ marginLeft: '5px' }}>
-                    {cartItems.reduce((acc, curr) => acc + curr.qty, 0)}
-                  </Badge>
-                )}
-              </Nav.Link>
-            </LinkContainer>
-
-            {userInfo ? (
-              <NavDropdown title={userInfo.name} id='username'>
-                <LinkContainer to='/profile'>
-                  <NavDropdown.Item>Perfil</NavDropdown.Item>
-                </LinkContainer>
-                <NavDropdown.Item onClick={logoutHandler}>
-                  Logout
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <LinkContainer to='/login'>
+            <Container className='d-flex'>
+              <LinkContainer to='/us'>
                 <Nav.Link>
-                  {' '}
-                  <FaUser /> Sign In{' '}
+                  <GiCandleLight />
+                  Quienes Somos?
                 </Nav.Link>
               </LinkContainer>
-            )}
+              <LinkContainer to='/cart'>
+                <Nav.Link>
+                  <FaShoppingCart /> Cart
+                  {cartItems.length > 0 && (
+                    <Badge pill bg='info' style={{ marginLeft: '5px' }}>
+                      {cartItems.reduce((acc, curr) => acc + curr.qty, 0)}
+                    </Badge>
+                  )}
+                </Nav.Link>
+              </LinkContainer>
 
-            {userInfo && userInfo.isAdmin && (
-              <NavDropdown title='Admin' id='adminmenu'>
-                <LinkContainer to='/admin/productlist'>
-                  <NavDropdown.Item>Productos</NavDropdown.Item>
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id='username'>
+                  <LinkContainer to='/profile'>
+                    <NavDropdown.Item>Perfil</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to='/login'>
+                  <Nav.Link>
+                    {' '}
+                    <FaUser /> Sign In{' '}
+                  </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='/admin/userlist'>
-                  <NavDropdown.Item>Usuarios</NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to='/admin/orderlist'>
-                  <NavDropdown.Item>Pedidos</NavDropdown.Item>
-                </LinkContainer>
-              </NavDropdown>
-            )}
+              )}
+
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/productlist'>
+                    <NavDropdown.Item>Productos</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/userlist'>
+                    <NavDropdown.Item>Usuarios</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Pedidos</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
+              )}
+            </Container>
           </Nav>
         </Navbar.Collapse>
       </Container>
