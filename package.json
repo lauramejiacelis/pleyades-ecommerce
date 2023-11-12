@@ -11,7 +11,8 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node api/seeder.js",
-    "data:destroy": "node api/seeder.js -d"
+    "data:destroy": "node api/seeder.js -d",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "author": "Laura Melissa Mejia Celis",
   "license": "ISC",
