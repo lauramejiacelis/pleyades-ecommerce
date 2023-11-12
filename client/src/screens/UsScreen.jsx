@@ -23,7 +23,7 @@ const UsScreen = () => {
           <Image src='/images/slide3.png' alt='Velas esferas' fluid />
           <Carousel.Caption className='carousel-caption'>
             <h5>Velas en lata</h5>
-            <p>Con intencion</p>
+            <p>Con intención</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
